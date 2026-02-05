@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy 18th Birthday 💖</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffb6c1, #ffe4ec);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .card {
+      background: #fff;
+      width: 92%;
+      max-width: 420px;
+      padding: 25px 20px;
+      border-radius: 22px;
+      box-shadow: 0 20px 40px rgba(255, 105, 180, 0.3);
+      text-align: center;
+      animation: fadeIn 1.3s ease;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .sparkle {
+      font-size: 2.5rem;
+      animation: sparkle 1.5s infinite alternate;
+    }
+
+    @keyframes sparkle {
+      from { transform: scale(1); }
+      to { transform: scale(1.15); }
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.6rem;
+      color: #ff4f9a;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 18px;
+    }
+
+    .letter {
+      background: #fff7fb;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid #ffd1e8;
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .cake {
+      font-size: 3.2rem;
+      margin: 10px 0;
+      animation: bounce 1.6s infinite;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .candle {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.4rem;
+      animation: flicker 0.8s infinite alternate;
+    }
+
+    .candle.off {
+      display: none;
+    }
+
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes flicker {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+
+    .hint {
+      font-size: 0.85rem;
+      color: #ff4f9a;
+      margin-bottom: 10px;
+    }
+
+    .from {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti"></canvas>
+
+  <div class="card">
+    <div class="sparkle">🎀✨</div>
+
+    <h1>Happy 18th Birthday</h1>
+    <h2><strong>Anayasha</strong> 💕</h2>
+    <div class="hint"> 🎂</div>
+
+    <div class="cake" onclick="blowCandle()">
+      🎂
+      <div class="candle" id="candle">🕯️</div>
+    </div>
+
+    <div class="letter" contenteditable="true">
+      Today isn’t just about turning 18 it’s about celebrating uu.  I’m so proud of the person u’re becomingg and I’m grateful every day that I get to walk beside u. May this new chapter bring you endless happiness big dreamsnand everything your heart wishes for. You are my today and all of my tomorrows.
+      <br><br>
+     May your life always be pink with happiness,  
+      sweet like cake,  
+      and filled with love that never fades. 
+		 Enjoy ur dayy ,future doctor
+    </div>
+
+    <div class="from">
+    Forever yours<br>
+       💌
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let confetti = [];
+    let blown = false;
+
+    function blowCandle() {
+      if (blown) return;
+      blown = true;
+      document.getElementById("candle").classList.add("off");
+      startConfetti();
+    }
+
+    function startConfetti() {
+      confetti = [];
+      for (let i = 0; i < 180; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 4 + 1,
+          color: `hsl(${Math.random()*360},100%,70%)`,
+          tilt: Math.random() * 10
+        });
+      }
+      animate();
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach((c, i) => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fill();
+        c.y += c.d;
+        c.x += Math.sin(c.tilt);
+        if (c.y > canvas.height) confetti[i].y = -10;
+      });
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
